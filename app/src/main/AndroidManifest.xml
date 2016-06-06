@@ -22,7 +22,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
 
-            <meta-data android:name="com.flybits.apikey" android:value="37D2C6CF-72B7-4899-8586-7411181ED2D6" />
         </activity>
 
         <service
@@ -53,6 +52,8 @@
         </receiver>
 
         <service android:name="com.flybits.core.api.services.PushService" />
+
+        <meta-data android:name="com.flybits.apikey" android:value="37D2C6CF-72B7-4899-8586-7411181ED2D6" />
     </application>
 
 </manifest>
