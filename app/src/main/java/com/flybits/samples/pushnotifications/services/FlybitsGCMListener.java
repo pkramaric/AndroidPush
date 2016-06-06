@@ -35,15 +35,6 @@ public class FlybitsGCMListener extends GcmListenerService {
         setNotification(getApplicationContext(), "Header Text", push.message);
     }
 
-    public class PushClass{
-        public long version;
-        public long timestamp;
-        public String entity;
-        public String action;
-        public String category;
-        public PushBody body;
-    }
-
     public class PushBody{
         public String message;
     }
