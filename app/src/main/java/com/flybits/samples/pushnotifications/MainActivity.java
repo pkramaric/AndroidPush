@@ -1,23 +1,34 @@
 package com.flybits.samples.pushnotifications;
 
 import android.app.ProgressDialog;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
 
 import com.flybits.core.api.Flybits;
 import com.flybits.core.api.interfaces.IRequestCallback;
+import com.flybits.core.api.interfaces.IRequestGeneralCallback;
 import com.flybits.core.api.interfaces.IRequestLoggedIn;
 import com.flybits.core.api.models.User;
 import com.flybits.core.api.utils.filters.LoginOptions;
+import com.flybits.samples.pushnotifications.services.FlybitsGCMListener;
+
+import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
 
     private ProgressDialog progressDialog;
+    private ArrayList<String> listOfPushNotifications;
+    private ArrayAdapter<String> adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,9 +38,13 @@ public class MainActivity extends AppCompatActivity {
         progressDialog          = new ProgressDialog(this);
 
         Button btnLogin         = (Button) findViewById(R.id.btnLogin);
-        Button btnLocation1     = (Button) findViewById(R.id.btnEnglandLocation);
-        Button btnLocation2     = (Button) findViewById(R.id.btnTorontoLocation);
+        Button btnLogout        = (Button) findViewById(R.id.btnLogout);
         ListView listView       = (ListView) findViewById(R.id.listOfNotification);
+
+        listOfPushNotifications = new ArrayList<>();
+
+        adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, listOfPushNotifications);
+        listView.setAdapter(adapter);
 
         btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -37,20 +52,51 @@ public class MainActivity extends AppCompatActivity {
                 login(v);
             }
         });
-        
-        btnLocation1.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
 
+        btnLogout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(final View v) {
+                setProgressBar("Logging Out ...", false);
+
+                Flybits.include(MainActivity.this).logout(new IRequestGeneralCallback() {
+                    @Override
+                    public void onSuccess() {
+                        Snackbar.make(v, "Successfully Logged Out!", Snackbar.LENGTH_LONG).show();
+                    }
+
+                    @Override
+                    public void onException(Exception e) {
+                        Snackbar.make(v, "Something went wrong! ", Snackbar.LENGTH_LONG).show();
+                    }
+
+                    @Override
+                    public void onFailed(String s) {
+
+                    }
+
+                    @Override
+                    public void onCompleted() {
+                        stopProgressBar();
+                    }
+                });
             }
         });
-        btnLocation1.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
 
-            }
-        });
+        IntentFilter filter = new IntentFilter(FlybitsGCMListener.MSG_RECEIVED);
+        registerReceiver(gcmReceiver, filter);
     }
+
+    BroadcastReceiver gcmReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            Bundle extras = intent.getExtras();
+            if (extras != null){
+                String msg = extras.getString(FlybitsGCMListener.EXTRA_MSG);
+                listOfPushNotifications.add(0, msg);
+                adapter.notifyDataSetChanged();
+            }
+        }
+    };
 
     public void login(final View v){
 
@@ -59,6 +105,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onLoggedIn(User user) {
                 Snackbar.make(v, "You are already logged in!", Snackbar.LENGTH_LONG).show();
+                stopProgressBar();
             }
 
             @Override
@@ -115,4 +162,9 @@ public class MainActivity extends AppCompatActivity {
         } catch (Exception e) {}
     }
 
+    @Override
+    protected void onDestroy() {
+        unregisterReceiver(gcmReceiver);
+        super.onDestroy();
+    }
 }
