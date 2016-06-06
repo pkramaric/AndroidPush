@@ -1,6 +1,7 @@
 <resources>
     <string name="app_name">PushNotification</string>
     <string name="btnLogin">Login</string>
+    <string name="btnLogout">Logout</string>
     <string name="btnLocation1">Toronto Location</string>
-    <string name="btnLocation2">England Location</string>
+    <string name="btnLocation2">London Location</string>
 </resources>
