@@ -20,6 +20,12 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="15dp"
         android:text="@string/btnLogout" />
+    <Button
+        android:id="@+id/btnLaunchPreferences"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="15dp"
+        android:text="@string/btnLaunchPreferences" />
 
     <ListView
         android:id="@+id/listOfNotification"

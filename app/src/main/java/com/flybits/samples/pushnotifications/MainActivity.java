@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.location.Location;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
@@ -37,9 +38,10 @@ public class MainActivity extends AppCompatActivity {
 
         progressDialog          = new ProgressDialog(this);
 
-        Button btnLogin         = (Button) findViewById(R.id.btnLogin);
-        Button btnLogout        = (Button) findViewById(R.id.btnLogout);
-        ListView listView       = (ListView) findViewById(R.id.listOfNotification);
+        Button btnLogin             = (Button) findViewById(R.id.btnLogin);
+        Button btnLogout            = (Button) findViewById(R.id.btnLogout);
+        Button btnLaunchPreferences = (Button) findViewById(R.id.btnLaunchPreferences);
+        ListView listView           = (ListView) findViewById(R.id.listOfNotification);
 
         listOfPushNotifications = new ArrayList<>();
 
@@ -62,6 +64,31 @@ public class MainActivity extends AppCompatActivity {
                     @Override
                     public void onSuccess() {
                         Snackbar.make(v, "Successfully Logged Out!", Snackbar.LENGTH_LONG).show();
+
+                        Location location = new Location("yourProvider");
+                        location.setLongitude(43.6495927);
+                        location.setLatitude(-79.3675562);
+                        Flybits.include(MainActivity.this).updateContextLocation(location, new IRequestGeneralCallback() {
+                            @Override
+                            public void onSuccess() {
+
+                            }
+
+                            @Override
+                            public void onException(Exception e) {
+
+                            }
+
+                            @Override
+                            public void onFailed(String s) {
+
+                            }
+
+                            @Override
+                            public void onCompleted() {
+
+                            }
+                        });
                     }
 
                     @Override
@@ -77,6 +104,28 @@ public class MainActivity extends AppCompatActivity {
                     @Override
                     public void onCompleted() {
                         stopProgressBar();
+                    }
+                });
+            }
+        });
+
+        btnLaunchPreferences.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(final View v) {
+                setProgressBar("Confirming Session Status...", false);
+                Flybits.include(MainActivity.this).isUserLoggedIn(true, new IRequestLoggedIn() {
+                    @Override
+                    public void onLoggedIn(User user) {
+
+                        stopProgressBar();
+                        Intent intent = new Intent(MainActivity.this, PushPreferencesActivity.class);
+                        startActivity(intent);
+                    }
+
+                    @Override
+                    public void onNotLoggedIn() {
+                        stopProgressBar();
+                        Snackbar.make(v, "Make Sure you are logged in before you continue.", Snackbar.LENGTH_LONG).show();
                     }
                 });
             }
@@ -124,12 +173,12 @@ public class MainActivity extends AppCompatActivity {
 
                     @Override
                     public void onException(Exception e) {
-
+                        Snackbar.make(v, "Something went wrong! " + e.getLocalizedMessage(), Snackbar.LENGTH_LONG).show();
                     }
 
                     @Override
                     public void onFailed(String s) {
-                        Snackbar.make(v, "Something went wrong! " + s, Snackbar.LENGTH_LONG).show();
+
                     }
 
                     @Override
