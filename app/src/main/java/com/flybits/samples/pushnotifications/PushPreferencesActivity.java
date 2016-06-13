@@ -4,7 +4,6 @@ import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ListView;
@@ -37,8 +36,15 @@ public class PushPreferencesActivity extends AppCompatActivity implements PushPr
         listView.setAdapter(adapter);
 
         setProgressBar("Getting Your Push Preferences", true);
+
+        /**
+         * Initialize Push Preferences
+         */
         setupListOfPreferences();
 
+        /**
+         * Get all of the logged in user's push preferences
+         */
         Flybits.include(PushPreferencesActivity.this).getPushPreferences(new IRequestCallback<String[]>() {
             @Override
             public void onSuccess(String[] listOfPushPreferences) {
@@ -53,7 +59,6 @@ public class PushPreferencesActivity extends AppCompatActivity implements PushPr
 
                     }
                 }
-                Log.d("Testing", "I");
             }
 
             @Override
@@ -111,13 +116,23 @@ public class PushPreferencesActivity extends AppCompatActivity implements PushPr
         return super.onOptionsItemSelected(item);
     }
 
+    /**
+     * Save the Push Preferences that have been selected by the user.
+     */
     private void saveMenuOptions() {
 
         setProgressBar("Saving Your Push Preferences", true);
+
+        /**
+         * Clear all preferences from the server.
+         */
         Flybits.include(PushPreferencesActivity.this).deletePushPreferenceOption(null, new IRequestGeneralCallback() {
             @Override
             public void onSuccess() {
 
+                /**
+                 * Go through the list of item and save them with in an array of Strings.
+                 */
                 ArrayList<String> listOfSavedPreferences = new ArrayList<>();
                 for (PushPreferenceItem item : listOfPushPreferenceItems){
                     if (!item.isSelected()){
@@ -127,6 +142,9 @@ public class PushPreferencesActivity extends AppCompatActivity implements PushPr
                 String[] stringArray = listOfSavedPreferences.toArray(new String[0]);
 
                 if (stringArray.length > 0) {
+                    /**
+                     * Saved all the preferences the user has selected.
+                     */
                     Flybits.include(PushPreferencesActivity.this).addPushPreferenceOptions(stringArray, new IRequestGeneralCallback() {
                         @Override
                         public void onSuccess() {
