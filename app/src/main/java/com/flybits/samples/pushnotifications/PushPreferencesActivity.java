@@ -122,67 +122,35 @@ public class PushPreferencesActivity extends AppCompatActivity implements PushPr
     private void saveMenuOptions() {
 
         setProgressBar("Saving Your Push Preferences", true);
+        ArrayList<String> listOfSavedPreferences = new ArrayList<>();
+        for (PushPreferenceItem item : listOfPushPreferenceItems){
+            if (!item.isSelected()){
+                listOfSavedPreferences.add(item.getHeader());
+            }
+        }
 
-        /**
-         * Clear all preferences from the server.
-         */
-        Flybits.include(PushPreferencesActivity.this).deletePushPreferenceOption(null, new IRequestGeneralCallback() {
+        Flybits.include(PushPreferencesActivity.this).overridePushPreferences(listOfSavedPreferences, new IRequestGeneralCallback() {
             @Override
             public void onSuccess() {
-
-                /**
-                 * Go through the list of item and save them with in an array of Strings.
-                 */
-                ArrayList<String> listOfSavedPreferences = new ArrayList<>();
-                for (PushPreferenceItem item : listOfPushPreferenceItems){
-                    if (!item.isSelected()){
-                        listOfSavedPreferences.add(item.getHeader());
-                    }
-                }
-                String[] stringArray = listOfSavedPreferences.toArray(new String[0]);
-
-                if (stringArray.length > 0) {
-                    /**
-                     * Saved all the preferences the user has selected.
-                     */
-                    Flybits.include(PushPreferencesActivity.this).addPushPreferenceOptions(stringArray, new IRequestGeneralCallback() {
-                        @Override
-                        public void onSuccess() {
-                            Toast.makeText(PushPreferencesActivity.this, "Saved Push Preferences Successfully!", Toast.LENGTH_SHORT).show();
-                        }
-
-                        @Override
-                        public void onException(Exception e) {
-                            Toast.makeText(PushPreferencesActivity.this, "Something Went Wrong!", Toast.LENGTH_SHORT).show();
-                        }
-
-                        @Override
-                        public void onFailed(String s) {
-                        }
-
-                        @Override
-                        public void onCompleted() {
-                            stopProgressBar();
-                        }
-                    });
-                }
+                Toast.makeText(PushPreferencesActivity.this, "Saved Push Preferences Successfully!", Toast.LENGTH_SHORT).show();
             }
 
             @Override
             public void onException(Exception e) {
                 Toast.makeText(PushPreferencesActivity.this, "Something Went Wrong!", Toast.LENGTH_SHORT).show();
-                stopProgressBar();
             }
 
             @Override
-            public void onFailed(String s) {}
+            public void onFailed(String s) {
+
+            }
 
             @Override
-            public void onCompleted() {}
+            public void onCompleted() {
+                stopProgressBar();
+            }
         });
-
     }
-
 
     private void setProgressBar(String text, boolean isCancelable) {
         progressDialog.setCancelable(isCancelable);
