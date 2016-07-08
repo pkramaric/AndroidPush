@@ -1,9 +1,12 @@
 <resources>
-    <string name="app_name">PushNotification</string>
+    <string name="app_name">Push Notification Sample</string>
     <string name="btnLogin">Login</string>
     <string name="btnLogout">Logout</string>
     <string name="btnLaunchPreferences">Launch Preferences</string>
     <string name="btnLocation1">Toronto Location</string>
     <string name="btnLocation2">London Location</string>
     <string name="menu_save">Save</string>
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
 </resources>
