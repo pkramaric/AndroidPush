@@ -7,17 +7,17 @@ import android.os.Bundle;
 import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 
+import com.flybits.core.api.Flybits;
+import com.flybits.core.api.exceptions.FlybitsPushException;
+import com.flybits.core.api.interfaces.IRequestCallback;
+import com.flybits.core.api.models.Push;
 import com.flybits.samples.pushnotifications.R;
 import com.google.android.gms.gcm.GcmListenerService;
-import com.google.gson.Gson;
 
 public class FlybitsGCMListener extends GcmListenerService {
 
     public final static String MSG_RECEIVED = "PUSH_RECEIVED";
     public final static String EXTRA_MSG    = "MSG_EXTRA";
-
-    public static final String NOTIFICATION_MSG     = "Action.Notification.Msg";
-    public static final String NOTIFICATION_HEADER  = "Action.Notification.Header";
     private static final String TAG = "MyGcmListenerService";
 
     @Override
@@ -25,14 +25,42 @@ public class FlybitsGCMListener extends GcmListenerService {
 
         Log.d(TAG, "Received GCMBroadcast: " + data);
 
-        Gson myGson = new Gson();
-        PushBody push  = myGson.fromJson(data.getString("body"), PushBody.class);
+        try {
+            Flybits.include(getBaseContext()).parseGCMPushNotification(data, PushBody.class, new IRequestCallback<Push>() {
+                @Override
+                public void onSuccess(Push push) {
 
-        Intent broadcastIntent = new Intent(MSG_RECEIVED);
-        broadcastIntent.putExtra(EXTRA_MSG, push.message);
-        sendBroadcast(broadcastIntent);
+                    Intent broadcastIntent = new Intent(MSG_RECEIVED);
+                    if (push.body instanceof PushBody) {
 
-        setNotification(getApplicationContext(), "Header Text", push.message);
+                        broadcastIntent.putExtra(EXTRA_MSG, ((PushBody) push.body).message);
+                        setNotification(getApplicationContext(), "Header Text", ((PushBody) push.body).message);
+
+                    }
+                    sendBroadcast(broadcastIntent);
+                }
+
+                @Override
+                public void onException(Exception e) {
+
+                }
+
+                @Override
+                public void onFailed(String s) {
+
+                }
+
+                @Override
+                public void onCompleted() {
+
+                }
+            });
+        }catch (FlybitsPushException e){
+            Log.d("Testing", e.getLocalizedMessage());
+        }
+
+//        Gson myGson = new Gson();
+//        PushBody push  = myGson.fromJson(data.getString("body"), PushBody.class);
     }
 
     public class PushBody{
