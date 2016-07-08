@@ -77,7 +77,7 @@ public class PushPreferenceFragment extends Fragment implements PushPreferenceAd
 
     private void getPushPreferences() {
 
-        callbackProgress.onProgressStart("Getting Your Push Preferences", true);
+        callbackProgress.onProgressStart("Getting Your Push Preferences...", true);
 
         /**
          * Get all of the logged in user's push preferences
@@ -118,6 +118,7 @@ public class PushPreferenceFragment extends Fragment implements PushPreferenceAd
             }
         });
     }
+
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         inflater.inflate(R.menu.menu_push_preferences, menu);  // Use filter.xml from step 1
