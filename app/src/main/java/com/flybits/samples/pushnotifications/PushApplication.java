@@ -12,7 +12,7 @@ public class PushApplication extends Application{
         FlybitsOptions builder = new FlybitsOptions.Builder(this)
                 //Additional Options Can Be Added Here
                 .setDebug(true)
-                .enablePushNotifications(FlybitsOptions.GCMType.WITH_GOOGLE_SERVICES_JSON, "1059783408302")
+                .enablePushNotifications(FlybitsOptions.GCMType.WITH_GOOGLE_SERVICES_JSON, "7543148523")
                 .build();
 
         //Initialize the FlybitsOptions

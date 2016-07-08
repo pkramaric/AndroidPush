@@ -1,12 +1,12 @@
 {
   "project_info": {
-    "project_number": "1059783408302",
-    "project_id": "pushsample-cce44"
+    "project_number": "7543148523",
+    "project_id": "flybitssamplepush"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:1059783408302:android:4afaffea1e8f9ec1",
+        "mobilesdk_app_id": "1:7543148523:android:4afaffea1e8f9ec1",
         "android_client_info": {
           "package_name": "com.flybits.samples.pushnotifications"
         }
@@ -14,7 +14,7 @@
       "oauth_client": [],
       "api_key": [
         {
-          "current_key": "AIzaSyBEKnGktDWnsJHSB2XtJLgsjUxXOO8k690"
+          "current_key": "AIzaSyCKRrkzstSCgq4eK6DtOpkBnQC9qoFbhCc"
         }
       ],
       "services": {
