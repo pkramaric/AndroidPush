@@ -25,20 +25,6 @@
             </intent-filter>
 
         </activity>
-        <activity android:name=".HomeActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.VIEW" />
-                <category android:name="android.intent.category.DEFAULT" />
-            </intent-filter>
-
-        </activity>
-        <activity android:name=".PushPreferencesActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.VIEW" />
-                <category android:name="android.intent.category.DEFAULT" />
-            </intent-filter>
-
-        </activity>
 
         <service
             android:name="com.flybits.core.api.services.gcm.FlybitsGCMTokenListenerService"
