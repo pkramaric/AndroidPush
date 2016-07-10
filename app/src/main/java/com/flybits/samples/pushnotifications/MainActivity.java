@@ -49,6 +49,10 @@ public class MainActivity extends AppCompatActivity
         navigationView.setNavigationItemSelectedListener(this);
 
         loginToFlybits();
+
+        Fragment fragment = HomeFragment.newInstance();
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        fragmentManager.beginTransaction().replace(R.id.fragmentContent, fragment).commit();
     }
 
     private void loginToFlybits() {
