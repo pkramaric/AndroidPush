@@ -35,8 +35,7 @@ public class PushPreferenceFragment extends Fragment implements PushPreferenceAd
     public PushPreferenceFragment() {}
 
     public static PushPreferenceFragment newInstance() {
-        PushPreferenceFragment fragment = new PushPreferenceFragment();
-        return fragment;
+        return new PushPreferenceFragment();
     }
 
     @Override
@@ -50,7 +49,6 @@ public class PushPreferenceFragment extends Fragment implements PushPreferenceAd
         View view = inflater.inflate(R.layout.fragment_push_preference, container, false);
 
         ListView listView           = (ListView) view.findViewById(R.id.listOfPushPreferences);
-
         listOfPushPreferenceItems   = new ArrayList<>();
         adapter                     = new PushPreferenceAdapter(getActivity(), R.layout.item_push_preference, listOfPushPreferenceItems, this);
         listView.setAdapter(adapter);
