@@ -15,14 +15,6 @@
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:textSize="18sp"
-            android:layout_marginBottom="5dp"
-            android:text="Start Time"/>
-
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -35,28 +27,19 @@
                 android:id="@+id/txtStartDate"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="0.5"
+                android:layout_weight="0.75"
                 android:gravity="center"
-                android:text="Click To Change Start Date"/>
+                android:text="Start Time"/>
 
-            <TextView
-                android:id="@+id/txtStartTime"
+            <Button
+                android:id="@+id/btnChangeStartTime"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="0.5"
+                android:layout_weight="0.25"
                 android:gravity="center"
-                android:text="Click To Change Start Time"/>
+                android:text="Change"/>
 
         </LinearLayout>
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:textSize="18sp"
-            android:text="End Time"
-            android:layout_marginTop="5dp"
-            android:layout_marginBottom="10dp"/>
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -70,17 +53,17 @@
                 android:id="@+id/txtEndDate"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="0.5"
+                android:layout_weight="0.75"
                 android:gravity="center"
-                android:text="Click To Change End Date"/>
+                android:text="End Time"/>
 
-            <TextView
-                android:id="@+id/txtEndTime"
+            <Button
+                android:id="@+id/btnChangeEndTime"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="0.5"
+                android:layout_weight="0.25"
                 android:gravity="center"
-                android:text="Click To Change End Time"/>
+                android:text="Change"/>
 
         </LinearLayout>
 
