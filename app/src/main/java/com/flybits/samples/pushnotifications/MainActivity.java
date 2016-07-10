@@ -7,6 +7,7 @@ import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.view.GravityCompat;
@@ -20,6 +21,7 @@ import android.widget.TimePicker;
 
 import com.flybits.core.api.Flybits;
 import com.flybits.core.api.interfaces.IRequestCallback;
+import com.flybits.core.api.interfaces.IRequestGeneralCallback;
 import com.flybits.core.api.interfaces.IRequestLoggedIn;
 import com.flybits.core.api.models.User;
 import com.flybits.core.api.utils.filters.LoginOptions;
@@ -27,6 +29,8 @@ import com.flybits.samples.pushnotifications.fragments.HomeFragment;
 import com.flybits.samples.pushnotifications.fragments.PushHistoryFragment;
 import com.flybits.samples.pushnotifications.fragments.PushPreferenceFragment;
 import com.flybits.samples.pushnotifications.interfaces.IProgressDialog;
+
+import java.util.Calendar;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, IProgressDialog,
@@ -115,10 +119,11 @@ public class MainActivity extends AppCompatActivity
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
 
-        Class fragmentClass;
+        Class fragmentClass = null;
 
         // Handle navigation view item clicks here.
         int id = item.getItemId();
+        final DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
 
         switch(id) {
             case R.id.nav_home:
@@ -130,23 +135,48 @@ public class MainActivity extends AppCompatActivity
             case R.id.nav_history:
                 fragmentClass = PushHistoryFragment.class;
                 break;
+            case R.id.nav_refresh_jwt:
+                onProgressStart("Refreshing JWT...", true);
+                Flybits.include(MainActivity.this).refreshJWT(new IRequestGeneralCallback() {
+                    @Override
+                    public void onSuccess() {
+                        Snackbar.make(drawer, "JWT Token Succesfully Refreshed", Snackbar.LENGTH_LONG).show();
+                    }
+
+                    @Override
+                    public void onException(Exception e) {
+                        Snackbar.make(drawer, "Something Went Wrong! JWT Was not refreshed.", Snackbar.LENGTH_LONG).show();
+                    }
+
+                    @Override
+                    public void onFailed(String s) {
+
+                    }
+
+                    @Override
+                    public void onCompleted() {
+                        onProgressEnd();
+                    }
+                });
+                break;
             default:
                 fragmentClass = HomeFragment.class;
         }
+        if (fragmentClass != null) {
+            try {
+                fragment = (Fragment) fragmentClass.newInstance();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
 
-        try {
-            fragment = (Fragment) fragmentClass.newInstance();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
 
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        if (isLoggedIn || id == R.id.nav_home) {
-            // Insert the fragment by replacing any existing fragment
-            FragmentManager fragmentManager = getSupportFragmentManager();
-            fragmentManager.beginTransaction().replace(R.id.fragmentContent, fragment).commit();
-        }else{
-            Snackbar.make(drawer, "You Must Be Logged In To Access This Content", Snackbar.LENGTH_LONG).show();
+            if (isLoggedIn || id == R.id.nav_home) {
+                // Insert the fragment by replacing any existing fragment
+                FragmentManager fragmentManager = getSupportFragmentManager();
+                fragmentManager.beginTransaction().replace(R.id.fragmentContent, fragment).commit();
+            } else {
+                Snackbar.make(drawer, "You Must Be Logged In To Access This Content", Snackbar.LENGTH_LONG).show();
+            }
         }
         drawer.closeDrawer(GravityCompat.START);
         return true;
@@ -175,12 +205,15 @@ public class MainActivity extends AppCompatActivity
         } catch (Exception e) {}
     }
 
+    private Calendar calendar;
+
     @Override
     public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
         if (fragment instanceof PushHistoryFragment && fragment.isAdded()){
-
-            ((PushHistoryFragment) fragment).onDateSelected(year, monthOfYear, dayOfMonth);
-
+            calendar = Calendar.getInstance();
+            calendar.set(year, monthOfYear, dayOfMonth);
+            DialogFragment newFragment = new com.flybits.samples.pushnotifications.dialogs.TimePicker();
+            newFragment.show(getSupportFragmentManager(), "timePicker");
         }
     }
 
@@ -188,7 +221,9 @@ public class MainActivity extends AppCompatActivity
     public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
         if (fragment instanceof PushHistoryFragment && fragment.isAdded()){
 
-            ((PushHistoryFragment) fragment).onTimeSelected(hourOfDay, minute);
+            calendar.set(Calendar.HOUR_OF_DAY, hourOfDay);
+            calendar.set(Calendar.MINUTE, minute);
+            ((PushHistoryFragment) fragment).onTimeSelected(calendar);
 
         }
     }
