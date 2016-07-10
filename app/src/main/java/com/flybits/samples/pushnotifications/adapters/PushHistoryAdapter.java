@@ -18,16 +18,12 @@ import java.util.Locale;
 public class PushHistoryAdapter extends ArrayAdapter<Push> {
 
     private ArrayList<Push> listOfPushes;
-    private Context context;
-    private int resource;
     private LayoutInflater li;
     private DateFormat format;
 
     public PushHistoryAdapter(Context context, int resource, ArrayList<Push> objects) {
         super(context, resource, objects);
 
-        this.context        = context;
-        this.resource       = resource;
         listOfPushes        = objects;
         li                  = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         format              = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss", Locale.CANADA);

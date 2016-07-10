@@ -20,16 +20,11 @@ public class PushPreferenceAdapter extends ArrayAdapter<PushPreferenceItem> {
     }
 
     private ArrayList<PushPreferenceItem> listOfPreferences;
-    private Context context;
-    private int resource;
     private LayoutInflater li;
     private ICheckboxChanged callback;
 
     public PushPreferenceAdapter(Context context, int resource, ArrayList<PushPreferenceItem> objects, ICheckboxChanged callback) {
         super(context, resource, objects);
-
-        this.context        = context;
-        this.resource       = resource;
         listOfPreferences   = objects;
         this.callback       = callback;
         li                  = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
