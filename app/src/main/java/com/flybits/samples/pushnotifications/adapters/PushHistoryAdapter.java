@@ -46,7 +46,7 @@ public class PushHistoryAdapter extends ArrayAdapter<Push> {
         }
 
         holder.txtContents.setText(item.bodyAsString);
-        holder.txtTimestamp.setText(format.format(item.timestamp));
+        holder.txtTimestamp.setText(format.format(item.timestamp * 1000));
         return convertView;
     }
 

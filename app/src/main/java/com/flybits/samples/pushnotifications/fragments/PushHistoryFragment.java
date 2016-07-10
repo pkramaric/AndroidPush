@@ -204,24 +204,41 @@ public class PushHistoryFragment extends Fragment {
     }
 
     public void onDateSelected(int year, int month, int day){
+        String dateAsString = String.valueOf(year) + "-";
+        if (month < 10){
+            dateAsString += "0";
+        }
+        dateAsString += month + "-";
+        if (day < 10){
+            dateAsString += "0";
+        }
+        dateAsString += day;
+
         if (isEndTimeSelected){
             endTime.set(year, month, day);
-            txtEndDate.setText(year + "-" +month +"-"+day);
+            txtEndDate.setText(dateAsString);
         }else{
             startTime.set(year, month, day);
-            txtStartDate.setText(year + "-" +month +"-"+day);
+            txtStartDate.setText(dateAsString);
         }
     }
 
     public void onTimeSelected(int hour, int minute){
+
+        String dateAsString = String.valueOf(hour)+":";
+        if (minute < 10){
+            dateAsString += "0";
+        }
+        dateAsString += minute;
+
         if (isEndTimeSelected){
             endTime.set(Calendar.HOUR_OF_DAY, hour);
             endTime.set(Calendar.MINUTE, minute);
-            txtEndTime.setText(hour + ":" + minute);
+            txtEndTime.setText(dateAsString);
         }else{
             startTime.set(Calendar.HOUR_OF_DAY, hour);
             startTime.set(Calendar.MINUTE, minute);
-            txtStartTime.setText(hour + ":" + minute);
+            txtStartTime.setText(dateAsString);
         }
     }
 
