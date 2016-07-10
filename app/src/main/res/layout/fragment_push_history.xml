@@ -4,8 +4,18 @@
     android:layout_height="match_parent"
     tools:context="com.flybits.samples.pushnotifications.fragments.PushHistoryFragment">
 
+    <TextView
+        android:id="@+id/txtNoEntries"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="22sp"
+        android:gravity="center"
+        android:layout_gravity="center_vertical"
+        android:visibility="gone"
+        android:text="There are currently no notifications available for this person."/>
+
     <ListView
         android:id="@+id/listOfPushHistory"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+        android:layout_height="match_parent" />
 </FrameLayout>

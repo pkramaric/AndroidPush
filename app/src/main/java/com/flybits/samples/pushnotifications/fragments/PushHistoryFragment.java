@@ -10,6 +10,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.flybits.core.api.Flybits;
@@ -31,6 +32,7 @@ public class PushHistoryFragment extends Fragment {
     private IProgressDialog callbackProgress;
 
     private ExecutorService taskGetPushHistory;
+    private TextView txtEmptyList;
 
     public PushHistoryFragment() {}
 
@@ -41,14 +43,15 @@ public class PushHistoryFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setHasOptionsMenu(true);
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_push_history, container, false);
 
+        txtEmptyList                = (TextView) view.findViewById(R.id.txtNoEntries);
         ListView lsvPushHistory     = (ListView) view.findViewById(R.id.listOfPushHistory);
-
         listOfPushNotifications     = new ArrayList<>();
         adapter                     = new PushHistoryAdapter(getActivity(), R.layout.item_push_history,listOfPushNotifications);
         lsvPushHistory.setAdapter(adapter);
@@ -89,6 +92,9 @@ public class PushHistoryFragment extends Fragment {
             public void onCompleted() {
                 if (isAdded()) {
                     adapter.notifyDataSetChanged();
+
+                    int visibility = (listOfPushNotifications.size() == 0)? View.VISIBLE : View.GONE;
+                    txtEmptyList.setVisibility(visibility);
                     callbackProgress.onProgressEnd();
                 }
             }
@@ -97,7 +103,7 @@ public class PushHistoryFragment extends Fragment {
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        inflater.inflate(R.menu.menu_push_history, menu);  // Use filter.xml from step 1
+        inflater.inflate(R.menu.menu_push_history, menu);
     }
 
     @Override
