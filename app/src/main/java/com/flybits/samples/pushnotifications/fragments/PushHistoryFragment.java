@@ -2,6 +2,7 @@ package com.flybits.samples.pushnotifications.fragments;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -20,9 +21,12 @@ import com.flybits.core.api.models.Push;
 import com.flybits.core.api.utils.filters.PushHistoryOptions;
 import com.flybits.samples.pushnotifications.R;
 import com.flybits.samples.pushnotifications.adapters.PushHistoryAdapter;
+import com.flybits.samples.pushnotifications.dialogs.DatePicker;
+import com.flybits.samples.pushnotifications.dialogs.TimePicker;
 import com.flybits.samples.pushnotifications.interfaces.IProgressDialog;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.concurrent.ExecutorService;
 
 public class PushHistoryFragment extends Fragment {
@@ -33,6 +37,10 @@ public class PushHistoryFragment extends Fragment {
 
     private ExecutorService taskGetPushHistory;
     private TextView txtEmptyList;
+    private boolean isEndTimeSelected;
+
+    private Calendar startTime, endTime;
+    private TextView txtEndDate, txtEndTime, txtStartTime, txtStartDate;
 
     public PushHistoryFragment() {}
 
@@ -56,6 +64,50 @@ public class PushHistoryFragment extends Fragment {
         adapter                     = new PushHistoryAdapter(getActivity(), R.layout.item_push_history,listOfPushNotifications);
         lsvPushHistory.setAdapter(adapter);
 
+        startTime                   = Calendar.getInstance();
+        endTime                     = Calendar.getInstance();
+
+        txtEndDate         = (TextView) view.findViewById(R.id.txtEndDate);
+        txtEndTime         = (TextView) view.findViewById(R.id.txtEndTime);
+        txtStartDate       = (TextView) view.findViewById(R.id.txtStartDate);
+        txtStartTime       = (TextView) view.findViewById(R.id.txtStartTime);
+
+        txtStartDate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                isEndTimeSelected = false;
+                DialogFragment newFragment = new DatePicker();
+                newFragment.show(getActivity().getSupportFragmentManager(), "datePicker");
+            }
+        });
+
+        txtStartTime.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                isEndTimeSelected = false;
+                DialogFragment newFragment = new TimePicker();
+                newFragment.show(getActivity().getSupportFragmentManager(), "timePicker");
+            }
+        });
+
+        txtEndDate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                isEndTimeSelected = true;
+                DialogFragment newFragment = new DatePicker();
+                newFragment.show(getActivity().getSupportFragmentManager(), "datePicker");
+            }
+        });
+
+        txtEndTime.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                isEndTimeSelected = true;
+                DialogFragment newFragment = new TimePicker();
+                newFragment.show(getActivity().getSupportFragmentManager(), "timePicker");
+            }
+        });
+
         getPushHistory(0);
         return view;
     }
@@ -64,12 +116,19 @@ public class PushHistoryFragment extends Fragment {
 
         callbackProgress.onProgressStart("Getting Your Push History...", true);
 
-        PushHistoryOptions options = new PushHistoryOptions.Builder()
-                .addPaging(10, page)
-//                .addTimeRange()
-                .build();
+        PushHistoryOptions.Builder options = new PushHistoryOptions.Builder()
+                .addPaging(10, page);
+                if (!checkIfTimeSelected(txtStartDate, "Click To Change Start Date") && !checkIfTimeSelected(txtStartTime, "Click To Change Start Time") &&
+                        !checkIfTimeSelected(txtEndDate, "Click To Change End Date") && !checkIfTimeSelected(txtEndTime, "Click To Change End Time")){
 
-        taskGetPushHistory  = Flybits.include(getActivity()).getPushHistory(options, new IRequestPaginationCallback<ArrayList<Push>>() {
+                    options.addTimeRange((startTime.getTimeInMillis() / 1000), (endTime.getTimeInMillis() / 1000));
+
+                }else{
+                    Toast.makeText(getActivity(), "Not all fields were entered so the time range is ignored", Toast.LENGTH_LONG).show();
+                }
+//                .addTimeRange()
+
+        taskGetPushHistory  = Flybits.include(getActivity()).getPushHistory(options.build(), new IRequestPaginationCallback<ArrayList<Push>>() {
 
             @Override
             public void onSuccess(ArrayList<Push> pushes, Pagination pagination) {
@@ -92,7 +151,6 @@ public class PushHistoryFragment extends Fragment {
             public void onCompleted() {
                 if (isAdded()) {
                     adapter.notifyDataSetChanged();
-
                     int visibility = (listOfPushNotifications.size() == 0)? View.VISIBLE : View.GONE;
                     txtEmptyList.setVisibility(visibility);
                     callbackProgress.onProgressEnd();
@@ -143,5 +201,33 @@ public class PushHistoryFragment extends Fragment {
     public void onDetach() {
         super.onDetach();
         callbackProgress = null;
+    }
+
+    public void onDateSelected(int year, int month, int day){
+        if (isEndTimeSelected){
+            endTime.set(year, month, day);
+            txtEndDate.setText(year + "-" +month +"-"+day);
+        }else{
+            startTime.set(year, month, day);
+            txtStartDate.setText(year + "-" +month +"-"+day);
+        }
+    }
+
+    public void onTimeSelected(int hour, int minute){
+        if (isEndTimeSelected){
+            endTime.set(Calendar.HOUR_OF_DAY, hour);
+            endTime.set(Calendar.MINUTE, minute);
+            txtEndTime.setText(hour + ":" + minute);
+        }else{
+            startTime.set(Calendar.HOUR_OF_DAY, hour);
+            startTime.set(Calendar.MINUTE, minute);
+            txtStartTime.setText(hour + ":" + minute);
+        }
+    }
+
+    public boolean checkIfTimeSelected(TextView txt, String text){
+
+        return txt.getText().toString().equals(text);
+
     }
 }

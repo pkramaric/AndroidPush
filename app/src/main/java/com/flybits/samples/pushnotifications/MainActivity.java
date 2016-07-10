@@ -1,6 +1,8 @@
 package com.flybits.samples.pushnotifications;
 
+import android.app.DatePickerDialog;
 import android.app.ProgressDialog;
+import android.app.TimePickerDialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
@@ -13,6 +15,8 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
+import android.widget.DatePicker;
+import android.widget.TimePicker;
 
 import com.flybits.core.api.Flybits;
 import com.flybits.core.api.interfaces.IRequestCallback;
@@ -25,10 +29,12 @@ import com.flybits.samples.pushnotifications.fragments.PushPreferenceFragment;
 import com.flybits.samples.pushnotifications.interfaces.IProgressDialog;
 
 public class MainActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener, IProgressDialog {
+        implements NavigationView.OnNavigationItemSelectedListener, IProgressDialog,
+        DatePickerDialog.OnDateSetListener, TimePickerDialog.OnTimeSetListener{
 
     private ProgressDialog mProgressDialog;
     private boolean isLoggedIn;
+    private Fragment fragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -109,7 +115,6 @@ public class MainActivity extends AppCompatActivity
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
 
-        Fragment fragment = null;
         Class fragmentClass;
 
         // Handle navigation view item clicks here.
@@ -168,5 +173,23 @@ public class MainActivity extends AppCompatActivity
             if (mProgressDialog.isShowing())
                 mProgressDialog.dismiss();
         } catch (Exception e) {}
+    }
+
+    @Override
+    public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
+        if (fragment instanceof PushHistoryFragment && fragment.isAdded()){
+
+            ((PushHistoryFragment) fragment).onDateSelected(year, monthOfYear, dayOfMonth);
+
+        }
+    }
+
+    @Override
+    public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
+        if (fragment instanceof PushHistoryFragment && fragment.isAdded()){
+
+            ((PushHistoryFragment) fragment).onTimeSelected(hourOfDay, minute);
+
+        }
     }
 }

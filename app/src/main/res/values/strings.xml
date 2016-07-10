@@ -7,6 +7,7 @@
     <string name="btnLocation2">London Location</string>
     <string name="menu_save">Save</string>
     <string name="menu_refresh">Refresh</string>
+    <string name="menu_calendar">Time Ranges</string>
 
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
