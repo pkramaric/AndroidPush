@@ -12,5 +12,5 @@
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
 
-    <string name="txtHomePage">This is the home page of the Push Sample. All Push options can be found in the sidemenu.\n\nThis page will be redesigned shortly.</string>
+    <string name="txtHomePage">Push Notifications.</string>
 </resources>
