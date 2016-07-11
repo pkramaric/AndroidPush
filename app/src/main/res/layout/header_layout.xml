@@ -19,33 +19,39 @@
 
     <ImageView
         android:id="@+id/imageView"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="40dp"
         android:src="@mipmap/ic_launcher_white" />
+
+    <View
+        android:id="@+id/dividor"
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:layout_alignParentBottom="true"
+        android:background="@color/dividor_between_profile_menu" />
 
     <TextView
         android:id="@+id/textView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
         android:paddingBottom="@dimen/activity_vertical_margin"
         android:paddingLeft="@dimen/activity_horizontal_margin"
         android:paddingRight="@dimen/activity_horizontal_margin"
-        android:textSize="20sp"
+        android:layout_above="@+id/dividor"
+        android:textSize="16sp"
         android:text="support@flybits.com" />
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingTop="@dimen/nav_header_vertical_spacing"
-        android:text="Flybits Inc."
-        android:layout_above="@+id/textView"
-        android:textSize="20sp"
-        android:paddingBottom="8dp"
+        android:text="Push Notifications"
+        android:textSize="16sp"
         android:paddingLeft="@dimen/activity_horizontal_margin"
         android:paddingRight="@dimen/activity_horizontal_margin"
+        android:layout_above="@+id/textView"
         android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
 
 
