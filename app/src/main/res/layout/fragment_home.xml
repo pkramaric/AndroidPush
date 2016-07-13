@@ -9,7 +9,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:scaleType="centerCrop"
-        android:src="@mipmap/bg_sdk"/>
+        android:src="@mipmap/bg_push"/>
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -22,7 +22,7 @@
             android:layout_width="150dp"
             android:layout_height="150dp"
             android:layout_gravity="center_horizontal"
-            android:src="@mipmap/ic_push_logo"
+            android:src="@mipmap/ic_launcher_white"
             android:layout_marginBottom="20dp"/>
 
         <TextView
