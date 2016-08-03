@@ -7,91 +7,91 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical">
-
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_marginTop="?attr/actionBarSize"
         android:orientation="vertical">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:weightSum="1.0"
-            android:orientation="horizontal"
-            android:layout_marginTop="5dp"
-            android:layout_marginBottom="5dp">
+            android:orientation="vertical">
 
-            <TextView
-                android:id="@+id/txtStartDate"
-                android:layout_width="0dp"
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="0.75"
-                android:gravity="center"
-                android:text="Start Time"/>
+                android:weightSum="1.0"
+                android:orientation="horizontal"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="5dp">
 
-            <Button
-                android:id="@+id/btnChangeStartTime"
-                android:layout_width="0dp"
+                <TextView
+                    android:id="@+id/txtStartDate"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.75"
+                    android:gravity="center"
+                    android:text="Start Time"/>
+
+                <Button
+                    android:id="@+id/btnChangeStartTime"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.25"
+                    android:gravity="center"
+                    android:text="Change"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="0.25"
-                android:gravity="center"
-                android:text="Change"/>
+                android:weightSum="1.0"
+                android:orientation="horizontal"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="5dp">
 
+                <TextView
+                    android:id="@+id/txtEndDate"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.75"
+                    android:gravity="center"
+                    android:text="End Time"/>
+
+                <Button
+                    android:id="@+id/btnChangeEndTime"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.25"
+                    android:gravity="center"
+                    android:text="Change"/>
+
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@android:color/black"/>
         </LinearLayout>
 
-        <LinearLayout
+        <RelativeLayout
+            android:layout_marginTop="10dp"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:weightSum="1.0"
-            android:orientation="horizontal"
-            android:layout_marginTop="5dp"
-            android:layout_marginBottom="5dp">
-
+            android:layout_height="match_parent">
             <TextView
-                android:id="@+id/txtEndDate"
-                android:layout_width="0dp"
+                android:id="@+id/txtNoEntries"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="0.75"
+                android:textSize="22sp"
                 android:gravity="center"
-                android:text="End Time"/>
+                android:layout_centerInParent="true"
+                android:visibility="gone"
+                android:text="There are currently no notifications available for this person."/>
 
-            <Button
-                android:id="@+id/btnChangeEndTime"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="0.25"
-                android:gravity="center"
-                android:text="Change"/>
-
-        </LinearLayout>
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="@android:color/black"/>
-    </LinearLayout>
-
-    <RelativeLayout
-        android:layout_marginTop="10dp"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-        <TextView
-            android:id="@+id/txtNoEntries"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textSize="22sp"
-            android:gravity="center"
-            android:layout_centerInParent="true"
-            android:visibility="gone"
-            android:text="There are currently no notifications available for this person."/>
-
-        <ListView
-            android:id="@+id/listOfPushHistory"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent" />
-    </RelativeLayout>
+            <ListView
+                android:id="@+id/listOfPushHistory"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+        </RelativeLayout>
 
     </LinearLayout>
 </FrameLayout>
