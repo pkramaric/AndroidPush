@@ -22,6 +22,7 @@ import com.flybits.core.api.interfaces.IRequestPaginationCallback;
 import com.flybits.core.api.models.Pagination;
 import com.flybits.core.api.models.Push;
 import com.flybits.core.api.utils.filters.PushHistoryOptions;
+import com.flybits.samples.pushnotifications.MainActivity;
 import com.flybits.samples.pushnotifications.R;
 import com.flybits.samples.pushnotifications.adapters.PushHistoryAdapter;
 import com.flybits.samples.pushnotifications.dialogs.DatePicker;
@@ -47,6 +48,7 @@ public class PushHistoryFragment extends Fragment {
     private Calendar startTime, endTime;
     private Button btnChangeStart, btnChangeEnd;
     private RadioButton radAsc, radDesc;
+    private MainActivity mainActivity;
 
     public PushHistoryFragment() {}
 
@@ -110,6 +112,9 @@ public class PushHistoryFragment extends Fragment {
             }
         });
 
+        if (mainActivity != null) {
+            mainActivity.setActionBarTitle("Push History");
+        }
 
         getPushHistory(0);
         return view;
@@ -189,6 +194,10 @@ public class PushHistoryFragment extends Fragment {
     @Override
     public void onDestroyView() {
 
+        if (mainActivity != null) {
+            mainActivity.setActionBarTitle("");
+        }
+
         if (taskGetPushHistory != null && !taskGetPushHistory.isShutdown()){
             taskGetPushHistory.shutdownNow();
         }
@@ -199,6 +208,11 @@ public class PushHistoryFragment extends Fragment {
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
+
+        if (context instanceof MainActivity){
+            mainActivity =(MainActivity) context;
+        }
+
         if (context instanceof IProgressDialog) {
             callbackProgress = (IProgressDialog) context;
         } else {
@@ -209,6 +223,7 @@ public class PushHistoryFragment extends Fragment {
     @Override
     public void onDetach() {
         super.onDetach();
+        mainActivity = null;
         callbackProgress = null;
     }
 

@@ -39,12 +39,14 @@ public class MainActivity extends AppCompatActivity
     private ProgressDialog mProgressDialog;
     private boolean isLoggedIn;
     private Fragment fragment;
+    private Toolbar toolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        toolbar = (Toolbar) findViewById(R.id.toolbar);
+        toolbar.setTitle("");
         setSupportActionBar(toolbar);
 
         mProgressDialog     = new ProgressDialog(MainActivity.this);
@@ -63,6 +65,10 @@ public class MainActivity extends AppCompatActivity
         Fragment fragment = HomeFragment.newInstance();
         FragmentManager fragmentManager = getSupportFragmentManager();
         fragmentManager.beginTransaction().replace(R.id.fragmentContent, fragment).commit();
+    }
+
+    public void setActionBarTitle(String title){
+        toolbar.setTitle(title);
     }
 
     private void loginToFlybits() {

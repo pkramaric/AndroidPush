@@ -9,7 +9,7 @@
     </style>
 
     <!-- ToolBar -->
-    <style name="Toolbar.Transparent" parent="@style/ThemeOverlay.AppCompat.ActionBar">
+    <style name="Toolbar.Transparent" parent="@style/ThemeOverlay.AppCompat.Dark">
         <item name="android:windowActionBarOverlay">true</item>
 
         <!-- Support Library compability -->

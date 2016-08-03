@@ -15,6 +15,7 @@ import android.widget.Toast;
 import com.flybits.core.api.Flybits;
 import com.flybits.core.api.interfaces.IRequestCallback;
 import com.flybits.core.api.interfaces.IRequestGeneralCallback;
+import com.flybits.samples.pushnotifications.MainActivity;
 import com.flybits.samples.pushnotifications.R;
 import com.flybits.samples.pushnotifications.adapters.PushPreferenceAdapter;
 import com.flybits.samples.pushnotifications.interfaces.IProgressDialog;
@@ -31,6 +32,8 @@ public class PushPreferenceFragment extends Fragment implements PushPreferenceAd
 
     private ExecutorService taskGetPushPreferences;
     private ExecutorService taskSavePushPreferences;
+
+    private MainActivity mainActivity;
 
     public PushPreferenceFragment() {}
 
@@ -55,6 +58,11 @@ public class PushPreferenceFragment extends Fragment implements PushPreferenceAd
 
         setupListOfPreferences();
         getPushPreferences();
+
+
+        if (mainActivity != null) {
+            mainActivity.setActionBarTitle("Push Preferences");
+        }
 
         return view;
     }
@@ -179,6 +187,11 @@ public class PushPreferenceFragment extends Fragment implements PushPreferenceAd
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
+
+        if (context instanceof MainActivity){
+            mainActivity =(MainActivity) context;
+        }
+
         if (context instanceof IProgressDialog) {
             callbackProgress = (IProgressDialog) context;
         } else {
@@ -189,11 +202,16 @@ public class PushPreferenceFragment extends Fragment implements PushPreferenceAd
     @Override
     public void onDetach() {
         super.onDetach();
-        callbackProgress = null;
+        mainActivity            = null;
+        callbackProgress    = null;
     }
 
     @Override
     public void onDestroyView() {
+
+        if (mainActivity != null) {
+            mainActivity.setActionBarTitle("");
+        }
 
         if (taskGetPushPreferences != null && !taskGetPushPreferences.isShutdown()){
             taskGetPushPreferences.shutdownNow();
