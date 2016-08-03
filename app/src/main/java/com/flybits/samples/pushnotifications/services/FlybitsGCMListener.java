@@ -32,9 +32,10 @@ public class FlybitsGCMListener extends GcmListenerService {
 
                     Intent broadcastIntent = new Intent(MSG_RECEIVED);
                     if (push.body instanceof PushBody) {
-
                         broadcastIntent.putExtra(EXTRA_MSG, ((PushBody) push.body).message);
-                        setNotification(getApplicationContext(), "Header Text", ((PushBody) push.body).message);
+                        String title    = (push.title != null)? push.title : "SOME_TITLE";
+                        String message  = (push.alert != null)? push.alert: "SOME_ALERT";
+                        setNotification(getApplicationContext(), title, message);
 
                     }
                     sendBroadcast(broadcastIntent);
@@ -58,9 +59,6 @@ public class FlybitsGCMListener extends GcmListenerService {
         }catch (FlybitsPushException e){
             Log.d("Testing", e.getLocalizedMessage());
         }
-
-//        Gson myGson = new Gson();
-//        PushBody push  = myGson.fromJson(data.getString("body"), PushBody.class);
     }
 
     public class PushBody{
