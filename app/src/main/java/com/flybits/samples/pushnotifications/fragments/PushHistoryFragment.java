@@ -11,7 +11,9 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.CompoundButton;
 import android.widget.ListView;
+import android.widget.RadioButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -45,6 +47,7 @@ public class PushHistoryFragment extends Fragment {
     private Calendar startTime, endTime;
     private TextView txtEndDate, txtStartDate;
     private Button btnChangeStart, btnChangeEnd;
+    private RadioButton radAsc, radDesc;
 
     public PushHistoryFragment() {}
 
@@ -71,10 +74,12 @@ public class PushHistoryFragment extends Fragment {
         startTime                   = Calendar.getInstance();
         endTime                     = Calendar.getInstance();
 
-        txtEndDate         = (TextView) view.findViewById(R.id.txtEndDate);
-        txtStartDate       = (TextView) view.findViewById(R.id.txtStartDate);
-        btnChangeStart     = (Button) view.findViewById(R.id.btnChangeStartTime);
-        btnChangeEnd       = (Button) view.findViewById(R.id.btnChangeEndTime);
+        txtEndDate          = (TextView) view.findViewById(R.id.txtEndDate);
+        txtStartDate        = (TextView) view.findViewById(R.id.txtStartDate);
+        btnChangeStart      = (Button) view.findViewById(R.id.btnChangeStartTime);
+        btnChangeEnd        = (Button) view.findViewById(R.id.btnChangeEndTime);
+        radAsc              = (RadioButton) view.findViewById(R.id.rdbAsc);
+        radDesc             = (RadioButton) view.findViewById(R.id.rdbDesc);
 
         btnChangeStart.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -94,30 +99,56 @@ public class PushHistoryFragment extends Fragment {
             }
         });
 
+        radAsc.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                getPushHistory(0);
+            }
+        });
+
+        radDesc.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                getPushHistory(0);
+            }
+        });
+
+
         getPushHistory(0);
         return view;
     }
 
-    private void getPushHistory(int page) {
+    private void getPushHistory(final int page) {
 
         callbackProgress.onProgressStart("Getting Your Push History...", true);
 
         PushHistoryOptions.Builder options = new PushHistoryOptions.Builder()
                 .addPaging(10, page);
-                if (!checkIfTimeSelected(txtEndDate, "End Time")  &&
-                        !checkIfTimeSelected(txtStartDate, "Start Time")){
 
-                    options.addTimeRange((startTime.getTimeInMillis() / 1000), (endTime.getTimeInMillis() / 1000));
+        if (radAsc.isChecked()){
+            options.setSortOrder(PushHistoryOptions.SortOrder.ASCENDING);
+        }else{
+            options.setSortOrder(PushHistoryOptions.SortOrder.DESCENDING);
+        }
 
-                }else{
-                    Toast.makeText(getActivity(), "Not all fields were entered so the time range is ignored", Toast.LENGTH_LONG).show();
-                }
-//                .addTimeRange()
+        if (!checkIfTimeSelected(txtEndDate, "End Time")  &&
+                !checkIfTimeSelected(txtStartDate, "Start Time")){
+
+            options.addTimeRange((startTime.getTimeInMillis() / 1000), (endTime.getTimeInMillis() / 1000));
+
+        }else{
+            Toast.makeText(getActivity(), "Not all fields were entered so the time range is ignored", Toast.LENGTH_LONG).show();
+        }
 
         taskGetPushHistory  = Flybits.include(getActivity()).getPushHistory(options.build(), new IRequestPaginationCallback<ArrayList<Push>>() {
 
             @Override
             public void onSuccess(ArrayList<Push> pushes, Pagination pagination) {
+
+                if (page == 0){
+                    listOfPushNotifications.clear();
+                }
+
                 if (isAdded()) {
                     listOfPushNotifications.addAll(pushes);
                 }
