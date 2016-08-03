@@ -45,7 +45,6 @@ public class PushHistoryFragment extends Fragment {
     private boolean isEndTimeSelected;
 
     private Calendar startTime, endTime;
-    private TextView txtEndDate, txtStartDate;
     private Button btnChangeStart, btnChangeEnd;
     private RadioButton radAsc, radDesc;
 
@@ -74,8 +73,6 @@ public class PushHistoryFragment extends Fragment {
         startTime                   = Calendar.getInstance();
         endTime                     = Calendar.getInstance();
 
-        txtEndDate          = (TextView) view.findViewById(R.id.txtEndDate);
-        txtStartDate        = (TextView) view.findViewById(R.id.txtStartDate);
         btnChangeStart      = (Button) view.findViewById(R.id.btnChangeStartTime);
         btnChangeEnd        = (Button) view.findViewById(R.id.btnChangeEndTime);
         radAsc              = (RadioButton) view.findViewById(R.id.rdbAsc);
@@ -131,13 +128,10 @@ public class PushHistoryFragment extends Fragment {
             options.setSortOrder(PushHistoryOptions.SortOrder.DESCENDING);
         }
 
-        if (!checkIfTimeSelected(txtEndDate, "End Time")  &&
-                !checkIfTimeSelected(txtStartDate, "Start Time")){
+        if (!checkIfTimeSelected(btnChangeEnd, "End Time")  &&
+                !checkIfTimeSelected(btnChangeStart, "Start Time")){
 
             options.addTimeRange((startTime.getTimeInMillis() / 1000), (endTime.getTimeInMillis() / 1000));
-
-        }else{
-            Toast.makeText(getActivity(), "Not all fields were entered so the time range is ignored", Toast.LENGTH_LONG).show();
         }
 
         taskGetPushHistory  = Flybits.include(getActivity()).getPushHistory(options.build(), new IRequestPaginationCallback<ArrayList<Push>>() {
@@ -185,8 +179,6 @@ public class PushHistoryFragment extends Fragment {
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
         if (id == R.id.action_refresh) {
-
-            listOfPushNotifications.clear();
             getPushHistory(0);
             return true;
         }
@@ -225,15 +217,22 @@ public class PushHistoryFragment extends Fragment {
         DateFormat format              = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss", Locale.CANADA);
         if (isEndTimeSelected){
             endTime =   calendar;
-            txtEndDate.setText(format.format(calendar.getTime()));
+            btnChangeEnd.setText(getString(R.string.toTime, format.format(calendar.getTime())));
+
+            if (!checkIfTimeSelected(btnChangeStart, "Start Time")){
+                getPushHistory(0);
+            }
         }else{
             startTime   =   calendar;
-            txtStartDate.setText(format.format(calendar.getTime()));
+            btnChangeStart.setText(getString(R.string.fromTime, format.format(calendar.getTime())));
+
+            if (!checkIfTimeSelected(btnChangeEnd, "End Time")){
+                getPushHistory(0);
+            }
         }
     }
 
-    public boolean checkIfTimeSelected(TextView txt, String text){
-
+    public boolean checkIfTimeSelected(Button txt, String text){
         return txt.getText().toString().equals(text);
 
     }

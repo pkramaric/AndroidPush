@@ -16,4 +16,6 @@
     <string name="txtHistoryTitle">Title: %s</string>
     <string name="txtHistoryAlert">Alert: %s</string>
     <string name="txtHistoryCustom">Custom: %s</string>
+    <string name="fromTime">From: %s</string>
+    <string name="toTime">To: %s</string>
 </resources>

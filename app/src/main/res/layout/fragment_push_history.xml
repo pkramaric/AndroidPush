@@ -54,57 +54,21 @@
 
             </LinearLayout>
 
-            <LinearLayout
+            <Button
+                android:id="@+id/btnChangeStartTime"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:weightSum="1.0"
-                android:orientation="horizontal"
-                android:layout_marginTop="5dp"
-                android:layout_marginBottom="5dp">
+                android:gravity="center"
+                android:text="Start Time"
+                android:layout_margin="5dp"/>
 
-                <TextView
-                    android:id="@+id/txtStartDate"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="0.75"
-                    android:gravity="center"
-                    android:text="Start Time"/>
-
-                <Button
-                    android:id="@+id/btnChangeStartTime"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="0.25"
-                    android:gravity="center"
-                    android:text="Change"/>
-
-            </LinearLayout>
-
-            <LinearLayout
+            <Button
+                android:id="@+id/btnChangeEndTime"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:weightSum="1.0"
-                android:orientation="horizontal"
-                android:layout_marginTop="5dp"
-                android:layout_marginBottom="5dp">
-
-                <TextView
-                    android:id="@+id/txtEndDate"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="0.75"
-                    android:gravity="center"
-                    android:text="End Time"/>
-
-                <Button
-                    android:id="@+id/btnChangeEndTime"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="0.25"
-                    android:gravity="center"
-                    android:text="Change"/>
-
-            </LinearLayout>
+                android:gravity="center"
+                android:text="End Time"
+                android:layout_margin="5dp"/>
 
             <View
                 android:layout_width="match_parent"
