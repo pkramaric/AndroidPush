@@ -13,4 +13,7 @@
     <string name="navigation_drawer_close">Close navigation drawer</string>
 
     <string name="txtHomePage">Push Notifications</string>
+    <string name="txtHistoryTitle">Title: %s</string>
+    <string name="txtHistoryAlert">Alert: %s</string>
+    <string name="txtHistoryCustom">Custom: %s</string>
 </resources>
