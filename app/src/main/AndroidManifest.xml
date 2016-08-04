@@ -17,7 +17,7 @@
         android:name=".PushApplication"
         android:theme="@style/AppTheme">
         <activity
-            android:theme="@style/AppTheme.NoActionBar"
+            android:theme="@style/AppTheme.NoActionBarDark"
             android:name=".MainActivity"
             android:screenOrientation="portrait">
             <intent-filter>
