@@ -31,13 +31,10 @@ public class FlybitsGCMListener extends GcmListenerService {
                 public void onSuccess(Push push) {
 
                     Intent broadcastIntent = new Intent(MSG_RECEIVED);
-                    if (push.body instanceof PushBody) {
-                        broadcastIntent.putExtra(EXTRA_MSG, ((PushBody) push.body).message);
-                        String title    = (push.title != null)? push.title : "SOME_TITLE";
-                        String message  = (push.alert != null)? push.alert: "SOME_ALERT";
-                        setNotification(getApplicationContext(), title, message);
-
-                    }
+                    broadcastIntent.putExtra(EXTRA_MSG, push.alert);
+                    String title    = (push.title != null)? push.title : "SOME_TITLE";
+                    String message  = (push.alert != null)? push.alert: "SOME_ALERT";
+                    setNotification(getApplicationContext(), title, message);
                     sendBroadcast(broadcastIntent);
                 }
 
