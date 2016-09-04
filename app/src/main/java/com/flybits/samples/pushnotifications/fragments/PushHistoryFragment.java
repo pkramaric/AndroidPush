@@ -1,15 +1,18 @@
 package com.flybits.samples.pushnotifications.fragments;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.ListView;
@@ -18,6 +21,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.flybits.core.api.Flybits;
+import com.flybits.core.api.interfaces.IRequestGeneralCallback;
 import com.flybits.core.api.interfaces.IRequestPaginationCallback;
 import com.flybits.core.api.models.Pagination;
 import com.flybits.core.api.models.Push;
@@ -112,12 +116,66 @@ public class PushHistoryFragment extends Fragment {
             }
         });
 
+        lsvPushHistory.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> parent, View view, final int pos, long id) {
+                AlertDialog dialog = new AlertDialog.Builder(getActivity())
+                        .setTitle("Delete Notification")
+                        .setMessage("Are you sure you want to delete this notification?")
+                        .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                deleteNotification(pos);
+                                dialog.dismiss();
+                            }
+                        })
+                        .setNegativeButton(android.R.string.cancel, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.dismiss();
+                            }
+                        })
+                        .create();
+
+                dialog.show();
+                return true;
+            }
+        });
+
         if (mainActivity != null) {
             mainActivity.setActionBarTitle("Push History");
         }
 
         getPushHistory(0);
         return view;
+    }
+
+    private void deleteNotification(final int pos) {
+
+        callbackProgress.onProgressStart("Deleting Push Notification...", true);
+        Flybits.include(getActivity()).deletePushNotification(listOfPushNotifications.get(pos).id, new IRequestGeneralCallback() {
+            @Override
+            public void onSuccess() {
+                listOfPushNotifications.remove(pos);
+                adapter.notifyDataSetChanged();
+                Toast.makeText(getActivity(), "Push Notification Successfully Deleted.", Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onException(Exception e) {
+                Toast.makeText(getActivity(), "Push Notification Successfully Failed.", Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onFailed(String s) {
+
+            }
+
+            @Override
+            public void onCompleted() {
+                callbackProgress.onProgressEnd();
+            }
+        });
     }
 
     private void getPushHistory(final int page) {
