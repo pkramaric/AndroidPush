@@ -1,20 +1,31 @@
 {
   "project_info": {
-    "project_number": "7543148523",
-    "project_id": "flybitssamplepush"
+    "project_number": "1059783408302",
+    "firebase_url": "https://pushsample-cce44.firebaseio.com",
+    "project_id": "pushsample-cce44",
+    "storage_bucket": "pushsample-cce44.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:7543148523:android:4afaffea1e8f9ec1",
+        "mobilesdk_app_id": "1:1059783408302:android:4afaffea1e8f9ec1",
         "android_client_info": {
           "package_name": "com.flybits.samples.pushnotifications"
         }
       },
-      "oauth_client": [],
+      "oauth_client": [
+        {
+          "client_id": "1059783408302-buec18mb9dqnhosb5vn2ut4cdpdlaudg.apps.googleusercontent.com",
+          "client_type": 3
+        },
+        {
+          "client_id": "1059783408302-06egff87in2shadojb03hai5uptldva6.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
       "api_key": [
         {
-          "current_key": "AIzaSyCKRrkzstSCgq4eK6DtOpkBnQC9qoFbhCc"
+          "current_key": "AIzaSyBEKnGktDWnsJHSB2XtJLgsjUxXOO8k690"
         }
       ],
       "services": {
@@ -26,7 +37,7 @@
           "other_platform_oauth_client": []
         },
         "ads_service": {
-          "status": 1
+          "status": 2
         }
       }
     }
