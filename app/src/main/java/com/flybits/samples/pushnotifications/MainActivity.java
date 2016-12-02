@@ -108,6 +108,11 @@ public class MainActivity extends AppCompatActivity
                     }
                 });
             }
+
+            @Override
+            public void onException(Exception e) {
+
+            }
         });
     }
 
