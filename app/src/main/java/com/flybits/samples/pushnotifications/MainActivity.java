@@ -93,26 +93,18 @@ public class MainActivity extends AppCompatActivity
                     }
 
                     @Override
-                    public void onException(Exception e) {
-
-                    }
+                    public void onException(Exception e) {}
 
                     @Override
-                    public void onFailed(String s) {
-
-                    }
+                    public void onFailed(String s) {}
 
                     @Override
-                    public void onCompleted() {
-
-                    }
+                    public void onCompleted() {}
                 });
             }
 
             @Override
-            public void onException(Exception e) {
-
-            }
+            public void onException(Exception e) {}
         });
     }
 
