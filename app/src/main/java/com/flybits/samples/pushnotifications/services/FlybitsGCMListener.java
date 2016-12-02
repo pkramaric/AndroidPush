@@ -77,12 +77,18 @@ public class FlybitsGCMListener extends GcmListenerService {
         long[] vibration = new long[1];
         vibration[0] = 100L;
 
+        NotificationCompat.BigTextStyle bigText = new NotificationCompat.BigTextStyle();
+        bigText.bigText(message);
+        bigText.setBigContentTitle(heading);
+        bigText.setSummaryText("From: Lennar Shuttle Notification");
+
         NotificationCompat.Builder mBuilder =
                 new NotificationCompat.Builder(context)
                         .setContentTitle(heading)
                         .setContentText(message)
                         .setSmallIcon(iconDrawable)
                         .setVibrate(vibration)
+                        .setStyle(bigText)
                         .setAutoCancel(true);
 
 
