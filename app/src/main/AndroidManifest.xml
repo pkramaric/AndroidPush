@@ -30,7 +30,7 @@
 
         <service android:name="com.flybits.core.api.services.PushService" />
 
-        <meta-data android:name="com.flybits.apikey" android:value="13A1D333-3EAB-45A9-8EF4-EE5CB4192D71" />
+        <meta-data android:name="com.flybits.apikey" android:value="SOME_API_KEY" />
     </application>
 
 </manifest>
