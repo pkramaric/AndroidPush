@@ -12,7 +12,7 @@ public class PushApplication extends Application{
         FlybitsOptions builder = new FlybitsOptions.Builder(this)
                 //Additional Options Can Be Added Here
                 .setDebug(true)
-                .enablePushNotifications(FlybitsOptions.GCMType.FIREBASE, "1059783408302")
+                .enablePushNotifications(FlybitsOptions.GCMType.FIREBASE, null)
                 .build();
 
         //Initialize the FlybitsOptions

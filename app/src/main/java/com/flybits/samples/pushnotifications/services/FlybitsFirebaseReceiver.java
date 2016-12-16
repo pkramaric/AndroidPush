@@ -60,6 +60,7 @@ public class FlybitsFirebaseReceiver extends FirebaseMessagingService {
             });
         }catch (FlybitsPushException e){
             Log.d("Testing", e.getLocalizedMessage());
+            Log.d("Testing", data.toString());
         }
 
     }
